@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Anthony Leaman - Cover Letter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Anthony Leaman - Cover Letter</h1>
+        <nav>
+            <ul>
+                <!-- Link to index.html so that the home page loads your resume on GitHub Pages -->
+                <li><a href="index.html">Resume</a></li>
+                <li><a href="cover-letter.html">Cover Letter</a></li>
+                <li><a href="career-goals.html">Career Goals</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <article id="coverLetterContent">
+            <section id="qualifications_cl">
+                <h2>Why I'm Qualified</h2>
+                <p>My experience managing <em>high-pressure restaurant operations</em> has honed my ability to:</p>
+                <ul>
+                    <li><strong>Analyze operational data</strong> to identify inefficiencies</li>
+                    <li><strong>Lead teams</strong> through challenging circumstances</li>
+                    <li><strong>Communicate complex information</strong> clearly</li>
+                </ul>
+            </section>
+
+            <section id="values_cl">
+                <h2>Professional Values</h2>
+                <blockquote>
+                    "I believe in showing up, paying attention, and doing the work that needs to be done - even when no one's watching."
+                    <cite class="quote-citation">– Anthony Leaman</cite>
+                </blockquote>
+            </section>
+
+            <hr>
+
+            <section id="aspirations_cl">
+                <h2>Career Aspirations</h2>
+                <p>I'm seeking roles that value:</p>
+                <ul>
+                    <li><mark class="highlight-text">Integrity and initiative</mark></li>
+                    <li>Mentorship and growth</li>
+                    <li>Practical <strong>problem-solving</strong></li>
+                </ul>
+                <p>I am <em>eager to contribute</em> to a forward-thinking organization.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>© <span id="currentYearSpanCL"></span> Anthony Leaman</p>
+    </footer>
+
+    <script>
+        document.getElementById('currentYearSpanCL').textContent = new Date().getFullYear();
+        console.log('Cover letter page loaded successfully.');
+    </script>
+</body>
+</html>
