@@ -1,0 +1,66 @@
+# Jekyll Configuration for Anthony Leaman's Resume Website
+
+# Site Settings
+title: "Anthony Leaman - Professional Resume"
+description: "Data Analytics Professional | Resume & Portfolio"
+url: "https://yaboyshades.github.io"
+baseurl: "/resume-"
+
+# Author Information
+author:
+  name: Anthony Leaman
+  email: aleaman.portfolio@example.com
+  phone: "(123) 456-7890"
+
+# Theme Selection
+theme: jekyll-theme-minimal
+
+# Build Settings
+markdown: kramdown
+highlighter: rouge
+permalink: pretty
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Include/Exclude Files
+include:
+  - _pages
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+
+# Collections
+collections:
+  pages:
+    output: true
+    permalink: /:name/
+
+# Default Front Matter
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+  - scope:
+      path: ""
+    values:
+      layout: "default"
+
+# SEO and Social
+social:
+  name: Anthony Leaman
+  links:
+    - https://github.com/yaboyshades
+
+# GitHub Pages specific settings
+github:
+  repository_name: resume-
+  repository_nwo: yaboyshades/resume-

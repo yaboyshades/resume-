@@ -1,19 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Anthony Leaman - Cover Letter</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+---
+layout: default
+title: Cover Letter
+description: Professional Cover Letter - Anthony Leaman
+permalink: /cover-letter/
+---
     <header>
         <h1>Anthony Leaman - Cover Letter</h1>
         <nav>
             <ul>
-                <!-- Link to index.html so that the home page loads your resume on GitHub Pages -->
-                <li><a href="index.html">Resume</a></li>
-                <li><a href="cover-letter.html">Cover Letter</a></li>
-                <li><a href="career-goals.html">Career Goals</a></li>
+                <!-- Updated navigation for Jekyll -->
+                <li><a href="{{ site.baseurl }}/">Resume</a></li>
+                <li><a href="{{ site.baseurl }}/cover-letter">Cover Letter</a></li>
+                <li><a href="{{ site.baseurl }}/career-goals">Career Goals</a></li>
             </ul>
         </nav>
     </header>
@@ -57,9 +55,3 @@
         <p>© <span id="currentYearSpanCL"></span> Anthony Leaman</p>
     </footer>
 
-    <script>
-        document.getElementById('currentYearSpanCL').textContent = new Date().getFullYear();
-        console.log('Cover letter page loaded successfully.');
-    </script>
-</body>
-</html>

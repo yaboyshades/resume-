@@ -1,20 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anthony Leaman - Career Goals</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+---
+layout: default
+title: Career Goals
+description: Career Goals and Contact Information - Anthony Leaman
+permalink: /career-goals/
+---
     <header>
         <h1>Career Roadmap</h1>
         <nav>
             <ul>
-                <!-- Point the home link to index.html for GitHub Pages -->
-                <li><a href="index.html">Resume</a></li>
-                <li><a href="cover-letter.html">Cover Letter</a></li>
-                <li><a href="career-goals.html">Career Goals</a></li>
+                <!-- Updated navigation for Jekyll -->
+                <li><a href="{{ site.baseurl }}/">Resume</a></li>
+                <li><a href="{{ site.baseurl }}/cover-letter">Cover Letter</a></li>
+                <li><a href="{{ site.baseurl }}/career-goals">Career Goals</a></li>
             </ul>
         </nav>
     </header>
@@ -105,9 +102,3 @@
         <p>© <span id="currentYearSpanCG"></span> Anthony Leaman</p>
     </footer>
 
-    <script>
-        document.getElementById('currentYearSpanCG').textContent = new Date().getFullYear();
-        console.log('Career goals page loaded successfully.');
-    </script>
-</body>
-</html>
