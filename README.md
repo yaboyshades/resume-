@@ -1,5 +1,4 @@
-# Anthony Leaman - Professional Resume Website
-
+# Anthony Leaman -  Resume
 A modern, responsive portfolio website showcasing professional experience, education, and career goals in data analytics.
 
 ## 🌐 Live Website
