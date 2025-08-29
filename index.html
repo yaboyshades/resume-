@@ -1,185 +1,40 @@
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anthony Leaman - Aspiring Data Analyst</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Arial', 'Helvetica', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f4f4f4;
-        }
-        
-        .container {
-            max-width: 850px;
-            margin: 20px auto;
-            background: white;
-            padding: 40px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-        }
-        
-        header {
-            border-bottom: 3px solid #2c3e50;
-            padding-bottom: 20px;
-            margin-bottom: 30px;
-        }
-        
-        h1 {
-            font-size: 36px;
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-        
-        .contact-info {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 15px;
-            font-size: 14px;
-            color: #555;
-        }
-        
-        .contact-info a {
-            color: #3498db;
-            text-decoration: none;
-        }
-        
-        .contact-info a:hover {
-            text-decoration: underline;
-        }
-        
-        .section {
-            margin-bottom: 30px;
-        }
-        
-        h2 {
-            color: #2c3e50;
-            font-size: 24px;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        h3 {
-            color: #34495e;
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
-        
-        .job-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 10px;
-        }
-        
-        .date {
-            color: #7f8c8d;
-            font-style: italic;
-            font-size: 14px;
-        }
-        
-        ul {
-            margin-left: 20px;
-            margin-bottom: 15px;
-        }
-        
-        li {
-            margin-bottom: 8px;
-            line-height: 1.8;
-        }
-        
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-        }
-        
-        .skill-category h4 {
-            color: #2c3e50;
-            font-size: 16px;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-        
-        .skill-list {
-            color: #555;
-            line-height: 1.8;
-        }
-        
-        .education-item {
-            margin-bottom: 20px;
-        }
-        
-        .highlight {
-            background-color: #ecf0f1;
-            padding: 15px;
-            border-left: 4px solid #3498db;
-            margin-bottom: 20px;
-        }
-        
-        @media print {
-            body {
-                background: white;
-            }
-            .container {
-                box-shadow: none;
-                margin: 0;
-                padding: 20px;
-            }
-        }
-        
-        @media (max-width: 600px) {
-            .container {
-                padding: 20px;
-            }
-            h1 {
-                font-size: 28px;
-            }
-            .job-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>Anthony Leaman</h1>
-            <div class="contact-info">
-                <span>📍 Fairborn, OH</span>
-                <span>📧 <a href="mailto:anthony.leaman@email.com">anthony.leaman@email.com</a></span>
-                <span>📱 (260) 555-0123</span>
-                <span>💼 <a href="https://linkedin.com/in/anthonyleaman">linkedin.com/in/anthonyleaman</a></span>
-                <span>💻 <a href="https://github.com/yaboyshades">github.com/yaboyshades</a></span>
-            </div>
-        </header>
+---
+layout: default
+title: Anthony Leaman - Resume
+description: Professional Resume - Anthony Leaman, Aspiring Data Analyst
+permalink: /
+---
+    <header>
+        <h1>Anthony Leaman</h1>
+        <nav>
+            <ul>
+                <!-- Updated navigation for Jekyll -->
+                <li><a href="{{ site.baseurl }}/">Resume</a></li>
+                <li><a href="{{ site.baseurl }}/cover-letter">Cover Letter</a></li>
+                <li><a href="{{ site.baseurl }}/career-goals">Career Goals</a></li>
+            </ul>
+        </nav>
+        <div class="contact-info">
+            <span>📍 Fairborn, OH</span>
+            <span>📧 <a href="mailto:anthony.leaman@email.com">anthony.leaman@email.com</a></span>
+            <span>📱 (260) 555-0123</span>
+            <span>💼 <a href="https://linkedin.com/in/anthonyleaman">linkedin.com/in/anthonyleaman</a></span>
+            <span>💻 <a href="https://github.com/yaboyshades">github.com/yaboyshades</a></span>
+        </div>
+    </header>
 
-        <section class="section">
-            <div class="highlight">
-                <strong>Aspiring Data Analyst</strong> excited to transition into data analytics with hands-on experience in statistical tools, data handling, and cloud basics. Strengths in SQL and Python, visualization, and turning data into insights. Eager to contribute to a team while growing in this dynamic field. Pursuing B.S. in Data Analytics (55 CUs done), with CompTIA Data+ certified and AWS Cloud Practitioner underway.
-
-                <strong>Experienced Manager and Parent Seeking Balance</strong><br><br>
-                With 10+ years in management, focusing on team support and efficient operations. Four years as General Manager at Domino's, building teams that value customer care, quality, and safety. ServSafe certified store manager with Google Data Analytics Certificate, blending management skills with data interest. As a new parent, looking for roles that challenge me professionally while supporting family life.
-            </div>
+    <main>
+        <section id="summary_resume" class="highlight">
+            <p><strong>Aspiring Data Analyst</strong> excited to transition into data analytics with hands-on experience in statistical tools, data handling, and cloud basics. Strengths in SQL and Python, visualization, and turning data into insights. Eager to contribute to a team while growing in this dynamic field. Pursuing B.S. in Data Analytics (55 CUs done), with CompTIA Data+ certified and AWS Cloud Practitioner underway.</p>
+            
+            <p><strong>Experienced Manager and Parent Seeking Balance</strong><br><br>
+            With 10+ years in management, focusing on team support and efficient operations. Four years as General Manager at Domino's, building teams that value customer care, quality, and safety. ServSafe certified store manager with Google Data Analytics Certificate, blending management skills with data interest. As a new parent, looking for roles that challenge me professionally while supporting family life.</p>
         </section>
 
-        <section class="section">
+        <section id="experience_resume">
             <h2>Professional Experience</h2>
             
-            <div class="job">
+            <article class="job">
                 <div class="job-header">
                     <h3>General Manager | Domino's Pizza</h3>
                     <span class="date">January 2021 - Present</span>
@@ -194,9 +49,9 @@
                     <li>Improved scheduling with analytics to balance costs and service</li>
                     <li>Reviewed reports daily to support ongoing improvements</li>
                 </ul>
-            </div>
+            </article>
 
-            <div class="job">
+            <article class="job">
                 <div class="job-header">
                     <h3>Delivery Driver & Shift Lead | Domino's Pizza</h3>
                     <span class="date">March 2019 - January 2021</span>
@@ -208,9 +63,9 @@
                     <li>Built skills in communication and conflict resolution</li>
                     <li>Earned "Employee of the Quarter" for contributions</li>
                 </ul>
-            </div>
+            </article>
 
-            <div class="job">
+            <article class="job">
                 <div class="job-header">
                     <h3>Operations Supervisor | Previous Restaurant Management</h3>
                     <span class="date">2014 - 2019</span>
@@ -221,13 +76,13 @@
                     <li>Made improvements to boost efficiency and satisfaction</li>
                     <li>Developed leadership in fast-paced teams</li>
                 </ul>
-            </div>
+            </article>
         </section>
 
-        <section class="section">
+        <section id="education_resume">
             <h2>Education</h2>
             
-            <div class="education-item">
+            <article class="education-item">
                 <div class="job-header">
                     <h3>Bachelor of Science in Data Analytics</h3>
                     <span class="date">Expected: May 2026</span>
@@ -238,10 +93,10 @@
                     <li>Coursework: Python, Advanced Analytics, Data Management, Stats, Scripting, Visualization</li>
                     <li>Projects: Customer segmentation with clustering, sales forecasting models, SQL inventory databases</li>
                 </ul>
-            </div>
+            </article>
         </section>
 
-        <section class="section">
+        <section id="skills_resume">
             <h2>Technical Skills</h2>
             <div class="skills-grid">
                 <div class="skill-category">
@@ -331,7 +186,7 @@
             </div>
         </section>
 
-        <section class="section">
+        <section id="certifications_resume">
             <h2>Certifications & Professional Development</h2>
             <ul>
                 <li><strong>CompTIA Data+</strong> - Earned (analytics basics)</li>
@@ -345,7 +200,7 @@
             </ul>
         </section>
 
-        <section class="section">
+        <section id="projects_resume">
             <h2>Key Projects & Achievements</h2>
             <ul>
                 <li><strong>Sales Prediction:</strong> Built Python model for daily sales forecasts to aid inventory</li>
@@ -354,7 +209,12 @@
                 <li><strong>Academic Progress:</strong> Speeding through degree while working full-time</li>
             </ul>
         </section>
-    </div>
-</body>
-</html>
-```
+    </main>
+
+    <footer>
+        <p>© <span id="currentYearSpan"></span> Anthony Leaman</p>
+    </footer>
+
+    <script>
+        document.getElementById('currentYearSpan').textContent = new Date().getFullYear();
+    </script>
