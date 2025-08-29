@@ -1,0 +1,253 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+/* Custom styles to enhance the minimal theme for the resume */
+
+/* Enhance the header area */
+header.wrapper {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+header.wrapper h1 a {
+  color: white !important;
+  text-decoration: none;
+}
+
+header.wrapper p {
+  color: rgba(255,255,255,0.9);
+  font-style: italic;
+}
+
+/* Improve navigation styling */
+nav ul {
+  background: rgba(255,255,255,0.1);
+  padding: 10px;
+  border-radius: 5px;
+  backdrop-filter: blur(10px);
+}
+
+nav ul li {
+  margin-right: 20px;
+}
+
+nav ul li a {
+  color: white !important;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover {
+  background-color: rgba(255,255,255,0.2);
+  text-decoration: none !important;
+}
+
+/* Enhance section styling */
+section h2 {
+  color: #2c3e50;
+  border-bottom: 3px solid #3498db;
+  padding-bottom: 10px;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+/* Color-coded sections like the original */
+#education_resume {
+  border-left: 4px solid #3498db;
+  padding-left: 20px;
+  margin-bottom: 30px;
+  background: rgba(52, 152, 219, 0.05);
+  padding: 20px;
+  border-radius: 5px;
+}
+
+#experience_resume {
+  border-left: 4px solid #27ae60;
+  padding-left: 20px;
+  margin-bottom: 30px;
+  background: rgba(39, 174, 96, 0.05);
+  padding: 20px;
+  border-radius: 5px;
+}
+
+#skills_resume {
+  border-left: 4px solid #f39c12;
+  padding-left: 20px;
+  margin-bottom: 30px;
+  background: rgba(243, 156, 18, 0.05);
+  padding: 20px;
+  border-radius: 5px;
+}
+
+#contact_details_resume {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 20px;
+  border: 1px solid #bdc3c7;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Enhance table styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 15px;
+  text-align: left;
+  font-weight: bold;
+}
+
+td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+tr:hover {
+  background-color: #e8f4fd;
+  transition: background-color 0.3s ease;
+}
+
+/* Improve article styling */
+article {
+  margin-bottom: 25px;
+  padding: 15px;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+article h3 {
+  color: #2c3e50;
+  margin-bottom: 8px;
+  font-size: 1.2em;
+}
+
+/* Enhanced list styling */
+ul li {
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+/* Improve link styling */
+a {
+  color: #3498db;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #2980b9;
+  text-decoration: underline;
+}
+
+/* Contact form styling */
+#contact-form-cg {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+#contact-form-cg label {
+  font-weight: bold;
+  color: #2c3e50;
+  display: block;
+  margin-bottom: 5px;
+}
+
+#contact-form-cg input,
+#contact-form-cg textarea,
+#contact-form-cg select {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #bdc3c7;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  transition: border-color 0.3s ease;
+}
+
+#contact-form-cg input:focus,
+#contact-form-cg textarea:focus,
+#contact-form-cg select:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+#contact-form-cg button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: transform 0.2s ease;
+}
+
+#contact-form-cg button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Enhance separators */
+hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(to right, #667eea, #764ba2);
+  margin: 30px 0;
+  border-radius: 1px;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  nav ul li {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  table {
+    font-size: 14px;
+  }
+  
+  th, td {
+    padding: 8px;
+  }
+}
+
+/* Footer styling */
+footer.wrapper {
+  margin-top: 40px;
+  padding: 20px;
+  text-align: center;
+  background: #f8f9fa;
+  border-radius: 10px;
+  color: #7f8c8d;
+}
+
+/* Highlight important text */
+.highlight-text {
+  background: linear-gradient(120deg, #ffeaa7 0%, #fab1a0 100%);
+  padding: 2px 6px;
+  border-radius: 3px;
+}

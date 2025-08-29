@@ -1,19 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Anthony Leaman - Resume</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+---
+layout: default
+title: Resume
+description: Data Analytics Professional Resume - Anthony Leaman
+---
     <header>
         <h1>Anthony Leaman</h1>
         <nav>
             <ul>
-                <!-- Change the home link to index.html so GitHub Pages loads the resume by default -->
-                <li><a href="index.html">Resume</a></li>
-                <li><a href="cover-letter.html">Cover Letter</a></li>
-                <li><a href="career-goals.html">Career Goals</a></li>
+                <!-- Updated navigation for Jekyll -->
+                <li><a href="{{ site.baseurl }}/">Resume</a></li>
+                <li><a href="{{ site.baseurl }}/cover-letter">Cover Letter</a></li>
+                <li><a href="{{ site.baseurl }}/career-goals">Career Goals</a></li>
             </ul>
         </nav>
     </header>
@@ -102,10 +99,3 @@
         <p>© <span id="currentYearSpanResume"></span> Anthony Leaman</p>
     </footer>
 
-    <script>
-        document.getElementById('currentDateDivResume').textContent = 'Date: ' + new Date().toLocaleDateString();
-        document.getElementById('currentYearSpanResume').textContent = new Date().getFullYear();
-        console.log('Resume page loaded successfully.');
-    </script>
-</body>
-</html>
