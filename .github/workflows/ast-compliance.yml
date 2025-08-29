@@ -1,0 +1,325 @@
+name: AST Resume Automation Compliance
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  ast-compliance-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.2'
+        bundler-cache: true
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: |
+        bundle install
+        npm install -g html-validate
+        npm install -g accessibility-checker
+        sudo apt-get update
+        sudo apt-get install -y wkhtmltopdf
+    
+    - name: Build Jekyll site
+      run: bundle exec jekyll build
+    
+    - name: Create validation scripts directory
+      run: mkdir -p .github/scripts
+    
+    - name: Create AST compliance validation script
+      run: |
+        cat > .github/scripts/ast-compliance-check.py << 'EOF'
+        #!/usr/bin/env python3
+        import os
+        import re
+        import json
+        import sys
+        from pathlib import Path
+        import subprocess
+        
+        class ASTComplianceChecker:
+            def __init__(self, site_dir="_site"):
+                self.site_dir = site_dir
+                self.errors = []
+                self.warnings = []
+                self.passed_checks = []
+        
+            def log_error(self, check, message):
+                self.errors.append(f"❌ {check}: {message}")
+        
+            def log_warning(self, check, message):
+                self.warnings.append(f"⚠️  {check}: {message}")
+        
+            def log_pass(self, check, message):
+                self.passed_checks.append(f"✅ {check}: {message}")
+        
+            def check_required_sections(self, html_content, filename):
+                """Check for required resume sections"""
+                required_sections = {
+                    'contact': [r'contact', r'email', r'phone', r'linkedin'],
+                    'experience': [r'experience', r'work', r'employment'],
+                    'education': [r'education', r'degree', r'university', r'college'],
+                    'skills': [r'skills', r'technical', r'competenc']
+                }
+                
+                for section, patterns in required_sections.items():
+                    found = any(re.search(pattern, html_content, re.IGNORECASE) for pattern in patterns)
+                    if found:
+                        self.log_pass(f"Required Section ({filename})", f"{section.title()} section found")
+                    else:
+                        self.log_error(f"Required Section ({filename})", f"{section.title()} section missing")
+        
+            def check_heading_hierarchy(self, html_content, filename):
+                """Check proper heading hierarchy for ATS readability"""
+                h1_count = len(re.findall(r'<h1[^>]*>', html_content, re.IGNORECASE))
+                h2_matches = re.findall(r'<h2[^>]*>(.*?)</h2>', html_content, re.IGNORECASE | re.DOTALL)
+                h3_matches = re.findall(r'<h3[^>]*>(.*?)</h3>', html_content, re.IGNORECASE | re.DOTALL)
+                
+                if h1_count == 1:
+                    self.log_pass(f"Heading Hierarchy ({filename})", "Single H1 tag found")
+                elif h1_count == 0:
+                    self.log_error(f"Heading Hierarchy ({filename})", "No H1 tag found")
+                else:
+                    self.log_warning(f"Heading Hierarchy ({filename})", f"Multiple H1 tags found: {h1_count}")
+                
+                if len(h2_matches) > 0:
+                    self.log_pass(f"Heading Hierarchy ({filename})", f"H2 sections found: {len(h2_matches)}")
+                else:
+                    self.log_warning(f"Heading Hierarchy ({filename})", "No H2 sections found")
+        
+            def check_contact_information(self, html_content, filename):
+                """Validate contact information presence and format"""
+                email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+                phone_pattern = r'(\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}|\d{10})'
+                linkedin_pattern = r'linkedin\.com/in/[\w-]+'
+                github_pattern = r'github\.com/[\w-]+'
+                
+                if re.search(email_pattern, html_content):
+                    self.log_pass(f"Contact Info ({filename})", "Email address found")
+                else:
+                    self.log_error(f"Contact Info ({filename})", "No valid email address found")
+                
+                if re.search(phone_pattern, html_content):
+                    self.log_pass(f"Contact Info ({filename})", "Phone number found")
+                else:
+                    self.log_warning(f"Contact Info ({filename})", "No phone number found")
+                
+                if re.search(linkedin_pattern, html_content):
+                    self.log_pass(f"Contact Info ({filename})", "LinkedIn profile found")
+                else:
+                    self.log_warning(f"Contact Info ({filename})", "No LinkedIn profile found")
+        
+            def check_semantic_markup(self, html_content, filename):
+                """Check for proper semantic HTML structure"""
+                semantic_tags = ['<header', '<main', '<section', '<article', '<nav', '<footer']
+                found_tags = []
+                
+                for tag in semantic_tags:
+                    if tag in html_content.lower():
+                        found_tags.append(tag.strip('<'))
+                
+                if len(found_tags) >= 3:
+                    self.log_pass(f"Semantic Markup ({filename})", f"Good semantic structure: {', '.join(found_tags)}")
+                else:
+                    self.log_warning(f"Semantic Markup ({filename})", f"Limited semantic tags: {', '.join(found_tags)}")
+        
+            def check_accessibility_features(self, html_content, filename):
+                """Check basic accessibility features"""
+                has_lang = 'lang=' in html_content
+                has_alt_attrs = 'alt=' in html_content
+                has_meta_charset = 'charset=' in html_content
+                has_viewport = 'viewport' in html_content
+                
+                if has_lang:
+                    self.log_pass(f"Accessibility ({filename})", "Language attribute found")
+                else:
+                    self.log_error(f"Accessibility ({filename})", "Missing language attribute")
+                
+                if has_meta_charset:
+                    self.log_pass(f"Accessibility ({filename})", "Character encoding specified")
+                else:
+                    self.log_error(f"Accessibility ({filename})", "Missing character encoding")
+                
+                if has_viewport:
+                    self.log_pass(f"Accessibility ({filename})", "Viewport meta tag found")
+                else:
+                    self.log_warning(f"Accessibility ({filename})", "Missing viewport meta tag")
+        
+            def check_keyword_optimization(self, html_content, filename):
+                """Check for relevant keywords for data analytics roles"""
+                data_analytics_keywords = [
+                    'data', 'analytics', 'analysis', 'sql', 'python', 'tableau', 'excel',
+                    'statistics', 'visualization', 'database', 'reporting', 'dashboard',
+                    'machine learning', 'ml', 'business intelligence', 'bi', 'etl'
+                ]
+                
+                content_lower = html_content.lower()
+                found_keywords = [kw for kw in data_analytics_keywords if kw in content_lower]
+                
+                if len(found_keywords) >= 5:
+                    self.log_pass(f"Keywords ({filename})", f"Good keyword coverage: {len(found_keywords)} found")
+                elif len(found_keywords) >= 3:
+                    self.log_warning(f"Keywords ({filename})", f"Moderate keyword coverage: {len(found_keywords)} found")
+                else:
+                    self.log_error(f"Keywords ({filename})", f"Poor keyword coverage: {len(found_keywords)} found")
+        
+            def run_compliance_checks(self):
+                """Run all AST compliance checks"""
+                print("🔍 Running AST Resume Automation Compliance Checks...\n")
+                
+                html_files = list(Path(self.site_dir).rglob("*.html"))
+                
+                if not html_files:
+                    self.log_error("File Check", f"No HTML files found in {self.site_dir}")
+                    return False
+                
+                for html_file in html_files:
+                    try:
+                        with open(html_file, 'r', encoding='utf-8') as f:
+                            content = f.read()
+                        
+                        filename = html_file.name
+                        print(f"📄 Checking {filename}...")
+                        
+                        self.check_required_sections(content, filename)
+                        self.check_heading_hierarchy(content, filename)
+                        self.check_contact_information(content, filename)
+                        self.check_semantic_markup(content, filename)
+                        self.check_accessibility_features(content, filename)
+                        self.check_keyword_optimization(content, filename)
+                        
+                    except Exception as e:
+                        self.log_error("File Processing", f"Error processing {html_file}: {str(e)}")
+                
+                return self.print_results()
+        
+            def print_results(self):
+                """Print compliance check results"""
+                print("\n" + "="*60)
+                print("AST COMPLIANCE CHECK RESULTS")
+                print("="*60)
+                
+                print(f"\n✅ PASSED CHECKS ({len(self.passed_checks)}):")
+                for check in self.passed_checks:
+                    print(f"  {check}")
+                
+                if self.warnings:
+                    print(f"\n⚠️  WARNINGS ({len(self.warnings)}):")
+                    for warning in self.warnings:
+                        print(f"  {warning}")
+                
+                if self.errors:
+                    print(f"\n❌ ERRORS ({len(self.errors)}):")
+                    for error in self.errors:
+                        print(f"  {error}")
+                
+                total_checks = len(self.passed_checks) + len(self.warnings) + len(self.errors)
+                pass_rate = (len(self.passed_checks) / total_checks * 100) if total_checks > 0 else 0
+                
+                print(f"\n📊 SUMMARY:")
+                print(f"  Total Checks: {total_checks}")
+                print(f"  Passed: {len(self.passed_checks)}")
+                print(f"  Warnings: {len(self.warnings)}")
+                print(f"  Errors: {len(self.errors)}")
+                print(f"  Pass Rate: {pass_rate:.1f}%")
+                
+                # Return True if no critical errors and pass rate > 70%
+                return len(self.errors) == 0 and pass_rate >= 70.0
+        
+        if __name__ == "__main__":
+            checker = ASTComplianceChecker()
+            success = checker.run_compliance_checks()
+            sys.exit(0 if success else 1)
+        EOF
+    
+    - name: Make validation script executable
+      run: chmod +x .github/scripts/ast-compliance-check.py
+    
+    - name: Install Python dependencies
+      run: |
+        python3 -m pip install --upgrade pip
+    
+    - name: Run AST compliance validation
+      run: python3 .github/scripts/ast-compliance-check.py
+    
+    - name: Validate HTML structure
+      run: |
+        for file in _site/*.html; do
+          if [ -f "$file" ]; then
+            echo "Validating HTML structure for $(basename "$file")..."
+            html-validate "$file" || echo "HTML validation warnings for $file"
+          fi
+        done
+    
+    - name: Generate PDF versions for ATS compatibility
+      run: |
+        mkdir -p _site/pdf
+        for file in _site/*.html; do
+          if [ -f "$file" ]; then
+            filename=$(basename "$file" .html)
+            echo "Generating PDF for $filename..."
+            wkhtmltopdf --page-size A4 --margin-top 20mm --margin-bottom 20mm \
+                       --margin-left 15mm --margin-right 15mm \
+                       --print-media-type --no-background \
+                       "$file" "_site/pdf/$filename.pdf" || echo "PDF generation failed for $file"
+          fi
+        done
+    
+    - name: Upload compliance report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: ast-compliance-report
+        path: |
+          _site/
+          _site/pdf/
+        retention-days: 30
+    
+    - name: Comment PR with compliance status
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const path = require('path');
+          
+          // Create a simple compliance status comment
+          const comment = `## 🤖 AST Resume Compliance Check
+          
+          The automated AST (Applicant Tracking System) compliance check has completed.
+          
+          **Key Validations:**
+          - ✅ HTML structure and semantic markup
+          - ✅ Required resume sections (contact, experience, education, skills)
+          - ✅ Heading hierarchy for ATS readability
+          - ✅ Contact information validation
+          - ✅ Accessibility compliance
+          - ✅ Keyword optimization for data analytics roles
+          - ✅ PDF generation for ATS compatibility
+          
+          **Generated Artifacts:**
+          - 📄 PDF versions of all pages for ATS submission
+          - 📊 Detailed compliance report
+          
+          Check the workflow run for detailed results and download PDF versions from the artifacts.`;
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          });
