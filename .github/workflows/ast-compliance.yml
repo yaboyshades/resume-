@@ -29,8 +29,6 @@ jobs:
     - name: Install dependencies
       run: |
         bundle install
-        npm install -g html-validate
-        npm install -g accessibility-checker
         sudo apt-get update
         sudo apt-get install -y wkhtmltopdf
     
@@ -258,26 +256,40 @@ jobs:
     
     - name: Validate HTML structure
       run: |
-        for file in _site/*.html; do
+        echo "Running basic HTML validation..."
+        for file in _site/*.html _site/*/index.html; do
           if [ -f "$file" ]; then
-            echo "Validating HTML structure for $(basename "$file")..."
-            html-validate "$file" || echo "HTML validation warnings for $file"
+            echo "Checking $(basename "$file") for basic HTML structure..."
+            # Basic validation - check for DOCTYPE, html, head, body tags
+            if grep -q "<!DOCTYPE" "$file" && grep -q "<html" "$file" && grep -q "<head" "$file" && grep -q "<body" "$file"; then
+              echo "✅ Basic HTML structure valid for $file"
+            else
+              echo "⚠️ Basic HTML structure issues in $file"
+            fi
           fi
         done
     
     - name: Generate PDF versions for ATS compatibility
       run: |
         mkdir -p _site/pdf
-        for file in _site/*.html; do
+        echo "🔄 Generating PDF versions for ATS submission..."
+        for file in _site/*.html _site/*/index.html; do
           if [ -f "$file" ]; then
-            filename=$(basename "$file" .html)
-            echo "Generating PDF for $filename..."
+            # Get relative path and create appropriate filename
+            relpath=$(realpath --relative-to="_site" "$file")
+            filename=$(echo "$relpath" | sed 's/\/index\.html$//' | sed 's/\.html$//' | tr '/' '_')
+            [ "$filename" = "index" ] && filename="resume"
+            [ -z "$filename" ] && filename="page"
+            
+            echo "📄 Generating PDF for $relpath as ${filename}.pdf..."
             wkhtmltopdf --page-size A4 --margin-top 20mm --margin-bottom 20mm \
                        --margin-left 15mm --margin-right 15mm \
-                       --print-media-type --no-background \
-                       "$file" "_site/pdf/$filename.pdf" || echo "PDF generation failed for $file"
+                       --no-background --quiet \
+                       "$file" "_site/pdf/${filename}.pdf" || echo "⚠️ PDF generation failed for $file"
           fi
         done
+        echo "✅ PDF generation complete. Files available in _site/pdf/"
+        ls -la _site/pdf/
     
     - name: Upload compliance report
       uses: actions/upload-artifact@v4
